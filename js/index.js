@@ -22,11 +22,10 @@ console.log('components of ' + arExp1 + ' are: ' + arExp1.match(arithmeticSearch
 console.log('components of ' + arExp2 + ' are: ' + arExp2.match(arithmeticSearcher));
 console.log('components of ' + arExp3 + ' are: ' + arExp3.match(arithmeticSearcher));
 
-var urlSearcher = /\{(\w+)\}/i;
-
 function createURL(templateUrl, params) {
-  templateUrl = templateUrl.replace(urlSearcher, params.country);
-  templateUrl = templateUrl.replace(urlSearcher, params.region);
+  for (var key in params) {
+    templateUrl = templateUrl.replace('{' + key + '}', params[key]);
+  }
   return templateUrl;
 }
 
@@ -34,4 +33,10 @@ var url = createURL('/api/countries/{country}/regions/{region}/', { country: 'Uk
 console.log(url);
 console.log(
   url === '/api/countries/Ukraine/regions/Kiev/'
+);
+
+var url1 = createURL('/api/countries/{country2}/regions/{region}/', { country2: 'Ukraine', region: 'Kiev' });
+console.log(url1);
+console.log(
+  url1 === '/api/countries/Ukraine/regions/Kiev/'
 );
